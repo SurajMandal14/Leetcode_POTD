@@ -7,7 +7,7 @@ public:
         {
             for(int &num : candidates)
             {
-                if((num & (1<<i)) !=0)
+                if((num & (1<<i)) >0)
                     count[i]++;
             }
             result=max(result,count[i]);
