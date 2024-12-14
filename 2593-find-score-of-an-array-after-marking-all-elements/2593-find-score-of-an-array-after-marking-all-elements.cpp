@@ -1,22 +1,36 @@
 class Solution {
 public:
-    using int2=pair<int, int>;
     long long findScore(vector<int>& nums) {
-        const int N=100000, n=nums.size();
-        bitset<N> mark=0;
-        vector<int2> nIdx(n);
-        for(int i=0; i<n; i++)
-            nIdx[i]={nums[i], i};
-        sort(nIdx.begin(), nIdx.end());// If there is a tie, choose the one with the smallest index.
-        long long sum=0;
-        for(auto& [x, i]: nIdx){
-            if (mark[i]) continue;
-            sum+=x;
-        //    cout<<"x="<<x<<" i="<<i<<" mark:"<<mark[i]<<" sum="<<sum<<endl;
-            mark[i]=1;
-            if (i>0) mark[i-1]=1;
-            if (i<n-1) mark[i+1]=1;
+        int n=nums.size();
+        vector<pair<int,int>> vec(n);
+        
+        for(int i=0;i<n;i++)
+        {
+            vec[i]={nums[i],i};
+            
         }
-        return sum;
+        sort(begin(vec),end(vec));
+        vector<bool>visited(n,false);
+        long long score=0;
+        for(int i=0;i<n;i++)
+        {
+            int element=vec[i].first;
+            int idx=vec[i].second;
+            if(visited[idx]==false)
+            {
+                score+=element;
+                visited[idx]==true;
+                if(idx-1>=0 && visited[idx-1]==false)
+                    visited[idx-1]=true;
+                if(idx+1<n && visited[idx+1]==false)
+                    visited[idx+1]=true;
+                
+            }
+            
+        }
+        return score;
+        
+            
+        
     }
 };
