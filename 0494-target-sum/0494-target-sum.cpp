@@ -1,6 +1,6 @@
 class Solution {
 public:
-    int solve(vector<int>& nums, int i, int sum, int target)
+    int solve(vector<int>& nums, int i, int sum, int target,unordered_map<string,int>& mp)
     {
         if(i==nums.size())
         {
@@ -9,11 +9,16 @@ public:
             else
                 return 0;
         }
-        int plus=solve(nums,i+1,sum+nums[i],target);
-        int minus=solve(nums,i+1,sum-nums[i],target);
-        return plus+minus;
+        string key=to_string(i)+"_"+to_string(sum);
+        if(mp.count(key))
+            return mp[key];
+        
+        int plus=solve(nums,i+1,sum+nums[i],target,mp);
+        int minus=solve(nums,i+1,sum-nums[i],target,mp);
+        return mp[key]= plus+minus;
     }
     int findTargetSumWays(vector<int>& nums, int target) {
-        return solve(nums,0,0,target);
+        unordered_map<string,int> mp;
+        return solve(nums,0,0,target,mp);
     }
 };
